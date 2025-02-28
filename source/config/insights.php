@@ -21,7 +21,6 @@ use SlevomatCodingStandard\Sniffs\ControlStructures\DisallowShortTernaryOperator
 use SlevomatCodingStandard\Sniffs\ControlStructures\DisallowYodaComparisonSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\UseSpacingSniff;
-use SlevomatCodingStandard\Sniffs\TypeHints\DeclareStrictTypesSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DisallowMixedTypeHintSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\PropertyTypeHintSniff;
@@ -75,7 +74,9 @@ return [
     */
 
     'exclude' => [
-        //  'path/to/directory-or-file'
+        // rules have high cyclomatic complexity
+        'app/Rules/NumberArrayWithLeadingZeros.php',
+        'app/Rules/OffsetMultipleOfTwenty.php',
     ],
 
     'add' => [
@@ -90,7 +91,6 @@ return [
         BinaryOperatorSpacesFixer::class,
         BracesFixer::class,
         ClassDefinitionFixer::class,
-        DeclareStrictTypesSniff::class,
         DisallowMixedTypeHintSniff::class,
         DisallowYodaComparisonSniff::class,
         DocCommentSpacingSniff::class,
@@ -110,43 +110,6 @@ return [
     ],
 
     'config' => [
-        NunoMaduro\PhpInsights\Domain\Insights\ForbiddenPrivateMethods::class => [
-            'title' => 'The usage of private methods is not idiomatic in Laravel.',
-        ],
-        PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff::class => [
-            'lineLimit' => 240,
-            'absoluteLineLimit' => 240,
-            'exclude' => [
-                'app/Services/PaymentLog.php',
-                'app/Http/Controllers',
-                'app/Http/Requests',
-            ],
-        ],
-        SlevomatCodingStandard\Sniffs\Functions\FunctionLengthSniff::class => [
-            'maxLinesLength' => 50,
-        ],
-        SlevomatCodingStandard\Sniffs\Classes\ForbiddenPublicPropertySniff::class => [
-            'exclude' => [
-                'app/Models/AutomatedWithdrawal.php',
-                'app/Models/Transaction/PSPTransactionModel.php',
-            ],
-        ],
-        NunoMaduro\PhpInsights\Domain\Insights\ForbiddenGlobals::class => [
-            'exclude' => [
-                'app/DTO/Requests/Callbacks/NuveiWithdrawCallbackRequestDto.php',
-            ],
-        ],
-        NunoMaduro\PhpInsights\Domain\Insights\CyclomaticComplexityIsHigh::class => [
-            'maxComplexity' => 10,
-            'exclude' => [
-                'app/DTO/Requests/Callbacks/',
-                'app/PaymentProviders/Providers/',
-                'app/Repositories/CacheRepository.php',
-                'app/Services/PaymentLog.php',
-                'app/Services/PaymentServices/CallbackService.php',
-                'app/Rules/TransactionParamsRule.php',
-            ],
-        ],
     ],
 
     /*

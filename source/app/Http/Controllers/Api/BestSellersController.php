@@ -20,9 +20,13 @@ class BestSellersController extends Controller
      *         description="Successful operation",
      *
      *         @OA\JsonContent(
-     *             type="object",
+     *              type="object",
      *
-     *             @OA\Property(property="success", type="boolean", example=true),
+     *              @OA\Property(
+     *                  property="success",
+     *                  type="boolean",
+     *                  example=true
+     *              ),
      *         )
      *     )
      * )
