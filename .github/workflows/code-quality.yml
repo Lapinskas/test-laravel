@@ -52,6 +52,12 @@ jobs:
         run: ./vendor/bin/phpinsights analyse --config-path=config/insights.php
         working-directory: source
 
+      - name: Setup Test Environment
+        run: |
+          cp source/.env.example source/.env
+          php artisan key:generate --env=testing
+        working-directory: source
+
       - name: Run Pest Tests
         run: ./vendor/bin/pest
         working-directory: source
