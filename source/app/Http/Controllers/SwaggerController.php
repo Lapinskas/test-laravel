@@ -15,5 +15,5 @@ class SwaggerController extends Controller
      *      )
      * )
      */
-    public function dummy() {} // required by Swagger
+    public function dummy(): void {} // required by Swagger
 }
