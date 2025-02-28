@@ -9,11 +9,11 @@ class SwaggerController extends Controller
      *      version="1.0",
      *      title="Lendflow Assessment API",
      *      description="API documentation for Lendflow Assessment",
+     *
      *      @OA\Contact(
      *          email="vlad.lapinskas@gmail.com"
      *      )
      * )
      */
-
-    public function dummy(){} // required by Swagger
+    public function dummy() {} // required by Swagger
 }

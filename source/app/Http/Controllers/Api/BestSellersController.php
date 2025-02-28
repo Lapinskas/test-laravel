@@ -12,17 +12,20 @@ class BestSellersController extends Controller
      *     path="/api/v1.0/best-sellers",
      *     summary="Get list of best sellers",
      *     tags={"Best Sellers"},
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
      *             type="object",
+     *
      *             @OA\Property(property="success", type="boolean", example=true),
      *         )
      *     )
      * )
      */
-    public function index() : JsonResponse
+    public function index(): JsonResponse
     {
         return response()->json([
             'success' => true,

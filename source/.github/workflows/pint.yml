@@ -1,0 +1,42 @@
+name: Check Code Formatting with Laravel Pint
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run Laravel Pint (check only)
+        run: ./vendor/bin/pint --test
+
+      - name: Run Laravel Pint (fix)
+        if: failure()
+        run: |
+          ./vendor/bin/pint
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add .
+          git commit -m "Apply Laravel Pint formatting fixes"
+          git push
+        continue-on-error: true
