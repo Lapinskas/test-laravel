@@ -44,7 +44,10 @@ jobs:
         working-directory: source
         continue-on-error: true
 
-
       - name: Run PHPStan
         run: ./vendor/bin/phpstan analyse
+        working-directory: source
+
+      - name: Run PHP Insights
+        run: ./vendor/bin/phpinsights analyse --config-path=config/insights.php
         working-directory: source
