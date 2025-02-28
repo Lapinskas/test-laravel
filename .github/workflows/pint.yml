@@ -26,9 +26,11 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
+        working-directory: source
 
       - name: Run Laravel Pint (check only)
         run: ./vendor/bin/pint --test
+        working-directory: source
 
       - name: Run Laravel Pint (fix)
         if: failure()
@@ -39,4 +41,5 @@ jobs:
           git add .
           git commit -m "Apply Laravel Pint formatting fixes"
           git push
+        working-directory: source
         continue-on-error: true
