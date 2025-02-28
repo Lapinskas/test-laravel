@@ -54,7 +54,7 @@ jobs:
 
       - name: Setup Test Environment
         run: |
-          cp source/.env.example source/.env
+          cp .env.example .env
           php artisan key:generate --env=testing
         working-directory: source
 
