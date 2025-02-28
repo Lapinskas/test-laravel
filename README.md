@@ -35,11 +35,11 @@ It provides beautiful overview of code architecture and it's complexity.
 
 You can run PHP insights manually for the whole project like following:
 
-    `composer insights`
+    composer insights
 
 You can run PHP insights manually for a specific file, providing relative path, as an example:
 
-    `artisan insights <path>`
+    artisan insights <path>
 
 > TIP: To know the className of an Insight, launch `insights` with `-v` option (verbose)
 
@@ -54,7 +54,7 @@ code.
 
 You can run PHPStan manually for the whole project like following:
 
-    `./vendor/bin/phpstan analyse`
+    ./vendor/bin/phpstan analyse
 
 ### Configure PHPStan
 
@@ -68,7 +68,7 @@ Laravel pint is used as the default code formatter.
 
 A custom composer script is available to validate the codebase before pushing the code, and can be run via:
 
-`composer quality`
+    composer quality
 
 This script will run the following steps:
 
