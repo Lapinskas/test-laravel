@@ -20,9 +20,9 @@
         "nunomaduro/collision": "^8.6",
         "nunomaduro/larastan": "^3.1",
         "nunomaduro/phpinsights": "^2.12",
+        "pestphp/pest": "^3.7",
         "phpstan/extension-installer": "^1.4",
-        "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^11.5.3"
+        "phpstan/phpstan": "^2.1"
     },
     "autoload": {
         "psr-4": {
@@ -64,6 +64,15 @@
         ],
         "insights": [
             "php ./vendor/bin/phpinsights analyse --config-path=config/insights.php"
+        ],
+        "test": [
+            "./vendor/bin/pest"
+        ],
+        "quality": [
+            "./vendor/bin/pint",
+            "./vendor/bin/phpstan analyse",
+            "php ./vendor/bin/phpinsights analyse --config-path=config/insights.php",
+            "./vendor/bin/pest"
         ]
     },
     "extra": {

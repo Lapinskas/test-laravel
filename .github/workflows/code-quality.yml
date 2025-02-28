@@ -1,4 +1,4 @@
-name: Check Code Formatting with Laravel Pint
+name: Check Code Quality
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - develop
 
 jobs:
-  pint:
+  quality:
     runs-on: ubuntu-latest
 
     steps:
@@ -50,4 +50,8 @@ jobs:
 
       - name: Run PHP Insights
         run: ./vendor/bin/phpinsights analyse --config-path=config/insights.php
+        working-directory: source
+
+      - name: Run Pest Tests
+        run: ./vendor/bin/pest
         working-directory: source
