@@ -56,6 +56,10 @@ jobs:
         run: |
           cp .env.example .env
           php artisan key:generate --env=testing
+          mkdir -p storage/framework/cache
+          mkdir -p storage/framework/views
+          mkdir -p storage/framework/sessions
+          chmod -R 775 storage
         working-directory: source
 
       - name: Run Pest Tests
