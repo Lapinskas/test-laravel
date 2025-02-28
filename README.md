@@ -64,6 +64,17 @@ At the moment the project is configured to run on assertion level=10 (the highes
 
 Laravel pint is used as the default code formatter.
 
+### Pest Tests
+
+Pest Tests cover 100% of the code to ensure the code quality
+
+#### Run Pest manually
+
+You can run Pest tests manually for the whole project like following:
+
+    ./vendor/bin/pest
+
+
 ### Validate Before Merge Request
 
 A custom composer script is available to validate the codebase before pushing the code, and can be run via:
@@ -75,6 +86,7 @@ This script will run the following steps:
 1. Laravel Pint
 2. PSPStan
 3. PHP Insights
+4. Pest Tests
 
 ### GitHub CI/CD
 
@@ -82,3 +94,4 @@ The following steps configured for GitHub Actions:
 1. Laravel Pint (with fixes, if needed)
 2. PSPStan
 3. PHP Insights
+4. Pest tests
