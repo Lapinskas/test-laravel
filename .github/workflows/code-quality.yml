@@ -64,4 +64,3 @@ jobs:
 
       - name: Run Pest Tests
         run: ./vendor/bin/pest
-        working-directory: source
