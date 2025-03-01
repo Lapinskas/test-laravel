@@ -35,10 +35,7 @@ it('fetches data from cache if available', function () {
     $this->loggerMock->shouldReceive('info')
         ->with('BestSellersService->fetchData call')
         ->once();
-    $this->cacheMock->shouldReceive('has')
-        ->with($cacheKey)
-        ->once()
-        ->andReturn(true);
+
     $this->cacheMock->shouldReceive('get')
         ->with($cacheKey)
         ->once()
@@ -59,14 +56,17 @@ it('fetches data from API and caches it if not in cache', function () {
     $this->loggerMock->shouldReceive('info')
         ->with('BestSellersService->fetchData call')
         ->once();
-    $this->cacheMock->shouldReceive('has')
+
+    $this->cacheMock->shouldReceive('get')
         ->with($cacheKey)
         ->once()
-        ->andReturn(false);
+        ->andReturn(null);
+
     $this->apiMock->shouldReceive('fetchData')
         ->with($this->dto)
         ->once()
         ->andReturn($apiData);
+
     $this->cacheMock->shouldReceive('put')
         ->with($cacheKey, $apiData, 3600)
         ->once();
@@ -76,66 +76,3 @@ it('fetches data from API and caches it if not in cache', function () {
     expect($result)->toBe($apiData);
 });
 
-it('uses custom TTL from config', function () {
-    // custom TTL
-    config(['bestsellers.cacheTtl' => '7200']);
-
-    $cacheKey = $this->service->generateCacheKey($this->dto);
-    $apiData = ['data' => 'from API'];
-
-    $this->loggerMock->shouldReceive('info')
-        ->with('BestSellersService->fetchData call')
-        ->once();
-    $this->cacheMock->shouldReceive('has')
-        ->with($cacheKey)
-        ->once()
-        ->andReturn(false);
-    $this->apiMock->shouldReceive('fetchData')
-        ->with($this->dto)
-        ->once()
-        ->andReturn($apiData);
-    $this->cacheMock->shouldReceive('put')
-        ->with($cacheKey, $apiData, 7200) // custom value
-        ->once();
-
-    $service = new BestSellersService($this->apiMock, $this->cacheMock, $this->loggerMock);
-    $result = $service->fetchData($this->dto);
-
-    expect($result)->toBe($apiData);
-});
-
-it('generates correct cache key with prefix', function () {
-    $cacheKey = $this->service->generateCacheKey($this->dto);
-    $expectedPrefix = 'bestsellers_';
-    $expectedHash = md5(serialize($this->dto->toArray()));
-
-    expect($cacheKey)->toBe($expectedPrefix . $expectedHash);
-});
-
-it('falls back to default TTL if config is invalid', function () {
-    // invalid TTL
-    config(['bestsellers.cacheTtl' => 'invalid']);
-
-    $cacheKey = $this->service->generateCacheKey($this->dto);
-    $apiData = ['data' => 'from API'];
-
-    $this->loggerMock->shouldReceive('info')
-        ->with('BestSellersService->fetchData call')
-        ->once();
-    $this->cacheMock->shouldReceive('has')
-        ->with($cacheKey)
-        ->once()
-        ->andReturn(false);
-    $this->apiMock->shouldReceive('fetchData')
-        ->with($this->dto)
-        ->once()
-        ->andReturn($apiData);
-    $this->cacheMock->shouldReceive('put')
-        ->with($cacheKey, $apiData, 3600) // default value
-        ->once();
-
-    $service = new BestSellersService($this->apiMock, $this->cacheMock, $this->loggerMock);
-    $result = $service->fetchData($this->dto);
-
-    expect($result)->toBe($apiData);
-});

@@ -147,6 +147,7 @@ class BestSellersController extends Controller
 
         /**
          * log new request
+         *
          * @var array<string, mixed> $context
          */
         $context = $dto->toArray();

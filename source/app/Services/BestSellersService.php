@@ -23,6 +23,9 @@ class BestSellersService
             ? intval(config('bestsellers.cacheTtl')) : 3600;
     }
 
+    /**
+     * @return array<mixed,mixed>
+     */
     public function fetchData(BestSellersRequestDto $dto): array
     {
         // log service call
@@ -30,8 +33,9 @@ class BestSellersService
 
         // try to return cached response
         $cacheKey = $this->generateCacheKey($dto);
-        if ($this->cache->has($cacheKey)) {
-            return $this->cache->get($cacheKey);
+        $cachedResponse = $this->cache->get($cacheKey);
+        if ($cachedResponse !== null) {
+            return $cachedResponse;
         }
 
         // fetch the data from external interface

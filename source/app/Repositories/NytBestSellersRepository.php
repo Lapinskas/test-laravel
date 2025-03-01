@@ -9,6 +9,9 @@ use App\Interfaces\BestSellersApi;
 
 class NytBestSellersRepository implements BestSellersApi
 {
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     */
     public function fetchData(Request $dto): array
     {
         return [];

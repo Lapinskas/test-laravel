@@ -11,12 +11,22 @@ use Psr\SimpleCache\InvalidArgumentException;
 class RedisCacheRepository implements CacheInterface
 {
     /**
+     * Get data from cache by key.
+     *
+     * @return array<mixed,mixed>|null
+     *
      * @throws InvalidArgumentException
      */
-    public function get(string $key): array
+    public function get(string $key): ?array
     {
         $encoded = Cache::store('redis')->get($key);
-        return json_decode($encoded, true);
+        if (! is_string($encoded)) {
+            return null;
+        }
+
+        $decoded = json_decode($encoded, true);
+
+        return is_array($decoded) ? $decoded : null;
     }
 
     public function put(string $key, array $value, int $ttl): void

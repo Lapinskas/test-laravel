@@ -20,9 +20,18 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
 
-        $this->app->bind(BestSellersApi::class, NytBestSellersRepository::class);
-        $this->app->bind(Cache::class, RedisCacheRepository::class);
-        $this->app->bind(Logging::class, LaravelLogger::class);
+        $this->app->bind(
+            BestSellersApi::class,
+            NytBestSellersRepository::class
+        );
+        $this->app->bind(
+            Cache::class,
+            RedisCacheRepository::class
+        );
+        $this->app->bind(
+            Logging::class,
+            LaravelLogger::class
+        );
     }
 
     /**

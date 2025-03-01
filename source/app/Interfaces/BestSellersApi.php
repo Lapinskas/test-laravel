@@ -11,5 +11,8 @@ use App\Dto\BestSellersRequestDto as Request;
  */
 interface BestSellersApi
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function fetchData(Request $dto): array;
 }
