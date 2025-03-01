@@ -23,7 +23,8 @@
         "nunomaduro/phpinsights": "^2.12",
         "pestphp/pest": "^3.7",
         "phpstan/extension-installer": "^1.4",
-        "phpstan/phpstan": "^2.1"
+        "phpstan/phpstan": "^2.1",
+        "worksome/request-factories": "^3.4"
     },
     "autoload": {
         "psr-4": {

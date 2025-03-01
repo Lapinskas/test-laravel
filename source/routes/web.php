@@ -11,5 +11,6 @@ Route::get('/', function (): View {
 });
 
 Route::prefix('api/v1')->group(function (): void {
-    Route::post('/best-sellers', [BestSellersController::class, 'index']);
+    Route::post('/best-sellers', [BestSellersController::class, 'index'])
+        ->name('best-sellers.index');
 });

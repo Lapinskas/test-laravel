@@ -13,7 +13,7 @@ use App\Helpers\Getter;
  * @property-read ?string $author
  * @property-read ?string $title
  * @property-read ?int $offset
- * @property-read ?array $isbn
+ * @property-read ?array{string} $isbn
  */
 class BestSellersRequestDto
 {

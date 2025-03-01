@@ -21,6 +21,7 @@ class BestSellersController extends Controller
      *          name="Accept",
      *          in="header",
      *          required=true,
+     *
      *          @OA\Schema(type="string", default="application/json"),
      *          description="Indicates that the client expects a JSON response"
      *      ),
@@ -97,7 +98,7 @@ class BestSellersController extends Controller
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
-     *                  example="The offset must be a non-negative multiple of 20"
+     *                  example="The offset must be a multiple of 20"
      *              )
      *          )
      *      ),
@@ -110,7 +111,8 @@ class BestSellersController extends Controller
      */
     public function index(BestSellersRequest $request): JsonResponse
     {
-        $dto = $request->toDto();
+        $request->toDto();
+
         return response()->json();
     }
 }

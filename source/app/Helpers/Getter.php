@@ -11,7 +11,8 @@ namespace App\Helpers;
  *   $class->property
  *
  * Note:
- *   Please use PHPDoc @property-read $readOnlyProperty annotation to enable IDE support
+ *   Please use PHPDoc @property-read $readOnlyProperty annotation
+ *   to enable IDE support
  */
 trait Getter
 {
