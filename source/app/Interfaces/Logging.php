@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Interfaces;
 
 /**
@@ -7,5 +9,8 @@ namespace App\Interfaces;
  */
 interface Logging
 {
+    /**
+     * @param  array{string,mixed}|array{}  $context
+     */
     public function info(string $message, array $context = []): void;
 }

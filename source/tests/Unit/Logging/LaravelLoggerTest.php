@@ -14,5 +14,7 @@ it('logs info message with context', function () {
 
     $logSpy->shouldHaveReceived('info', [$message, $context]);
 
+    expect(fn () => $logSpy->shouldHaveReceived('info', [$message, $context]))->not->toThrow(Exception::class);
+
     Mockery::close();
 });

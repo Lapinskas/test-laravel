@@ -29,6 +29,14 @@ class BestSellersRequestDto
         protected readonly ?array $isbn,
     ) {}
 
+    /**
+     * @return array{
+     *     author:string|null,
+     *     title:string|null,
+     *     offset:int|null,
+     *     isbn:array{string}|null
+     * }
+     */
     public function toArray(): array
     {
         return [

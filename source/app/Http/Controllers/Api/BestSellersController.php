@@ -11,11 +11,8 @@ use Illuminate\Http\JsonResponse;
 
 class BestSellersController extends Controller
 {
-
     // Use DI to set a logger
-    public function __construct(protected Logging $logger)
-    {
-    }
+    public function __construct(protected Logging $logger) {}
 
     /**
      * @OA\Post(
@@ -121,8 +118,15 @@ class BestSellersController extends Controller
         // get strongly typed DTO from validated request
         $dto = $request->toDto();
 
+        /**
+         * Prepare context for logging
+         *
+         * @var array<string, mixed> $context
+         */
+        $context = $dto->toArray();
+
         // log new request
-        $this->logger->info('BestSellers request', $dto->toArray());
+        $this->logger->info('BestSellers request', $context);
 
         return response()->json();
     }
