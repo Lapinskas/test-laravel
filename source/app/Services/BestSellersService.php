@@ -5,53 +5,62 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Dto\BestSellersRequestDto;
+use App\Dto\BestSellersResponseDto;
+use App\Helpers\Config;
 use App\Interfaces\BestSellersApi;
 use App\Interfaces\Cache as CacheRepository;
 use App\Interfaces\Logging;
 
 class BestSellersService
 {
-    private int $ttl;
-
     public function __construct(
         protected BestSellersApi $api,
         protected CacheRepository $cache,
         protected Logging $logger
-    ) {
-        // the following construction needed to cope with the phpstan level 10
-        $this->ttl = is_numeric(config('bestsellers.cacheTtl'))
-            ? intval(config('bestsellers.cacheTtl')) : 3600;
-    }
+    ) {}
 
     /**
-     * @return array<mixed,mixed>
+     * @throws \App\Exceptions\BestSellersApi
      */
-    public function fetchData(BestSellersRequestDto $dto): array
-    {
+    public function fetchData(
+        BestSellersRequestDto $dto
+    ): BestSellersResponseDto {
         // log service call
         $this->logger->info('BestSellersService->fetchData call');
 
-        // try to return cached response
+        // try to fetch cached response
         $cacheKey = $this->generateCacheKey($dto);
         $cachedResponse = $this->cache->get($cacheKey);
+
+        // return cached response
         if ($cachedResponse !== null) {
-            return $cachedResponse;
+            return new BestSellersResponseDto(
+                cached: true,
+                rawResponse: $cachedResponse
+            );
         }
 
         // fetch the data from external interface
         $data = $this->api->fetchData($dto);
 
         // cache results
-        $this->cache->put($cacheKey, $data, $this->ttl);
+        $this->cache->put(
+            key: $cacheKey,
+            value: $data,
+            ttl: Config::int('bestsellers.cacheTtl', 3600)
+        );
 
-        return $data;
+        return new BestSellersResponseDto(
+            cached: false,
+            rawResponse: $data
+        );
     }
 
     public function generateCacheKey(BestSellersRequestDto $dto): string
     {
-        $value = config('bestsellers.cachePrefix');
-        $prefix = is_string($value) ? $value : '';
+        $prefix = Config::string('bestsellers.cachePrefix');
+        $suffix = md5(serialize($dto->toArray()));
 
-        return $prefix.md5(serialize($dto->toArray()));
+        return $prefix.$suffix;
     }
 }

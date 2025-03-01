@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\BestSellersApi;
 use App\Http\Requests\BestSellersRequest;
 use App\Interfaces\Logging;
 use App\Services\BestSellersService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class BestSellersController extends Controller
 {
@@ -78,7 +80,12 @@ class BestSellersController extends Controller
      *                  example=true
      *              ),
      *              @OA\Property(
-     *                   property="rawData",
+     *                  property="cached",
+     *                  type="boolean",
+     *                  example=false
+     *              ),
+     *              @OA\Property(
+     *                   property="rawResponse",
      *                    type="object"
      *               )
      *         )
@@ -155,20 +162,60 @@ class BestSellersController extends Controller
 
         try {
             // use service to fetch cached or fresh API data
-            $data = $service->fetchData($dto);
+            $response = $service->fetchData($dto);
 
             // successfully return raw (cached) API response
             return response()->json([
                 'success' => true,
-                'rawData' => $data,
+                'cached' => $response->cached,
+                'rawResponse' => $response->rawResponse,
             ]);
+        } catch (BestSellersApi $apiException) {
+            return $this->handleApiException($apiException, $context);
         } catch (Exception $exception) {
-            // log error
-            $this->logger->error($exception->getMessage(), $context);
-
-            return response()->json([
-                'success' => false,
-            ]);
+            return $this->handleException($exception, $context);
         }
+    }
+
+    /**
+     * Handle expected API exceptions
+     *
+     * @param  array<string, mixed>  $context
+     */
+    protected function handleApiException(
+        BestSellersApi $exception,
+        array $context
+    ): JsonResponse {
+        /** @var array<string, mixed> $logContext */
+        $logContext = [
+            'request' => $context,
+            'error' => $exception->toArray(),
+        ];
+        $this->logger->error($exception->getMessage(), $logContext);
+
+        // wrap NYT response using original error code
+        return response()->json([
+            'success' => false,
+            'error' => $exception->message,
+            'rawResponse' => $exception->getResponseBody(),
+        ], $exception->errorCode);
+    }
+
+    /**
+     * Handle unexpected exceptions, if any
+     *
+     * @param  array<string, mixed>  $context
+     */
+    protected function handleException(
+        Exception $exception,
+        array $context
+    ): JsonResponse {
+        // log error
+        $this->logger->error($exception->getMessage(), $context);
+
+        return response()->json([
+            'success' => false,
+            'error' => 'Internal server error',
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

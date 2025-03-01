@@ -1,6 +1,7 @@
 <?php
 
 use App\Dto\BestSellersRequestDto;
+use App\Dto\BestSellersResponseDto;
 use App\Interfaces\BestSellersApi;
 use App\Interfaces\Cache as CacheRepository;
 use App\Interfaces\Logging;
@@ -46,7 +47,9 @@ it('fetches data from cache if available', function () {
 
     $result = $this->service->fetchData($this->dto);
 
-    expect($result)->toBe($cachedData);
+    expect($result)->toBeInstanceOf(BestSellersResponseDto::class)
+        ->and($result->cached)->toBeTrue()
+        ->and($result->rawResponse)->toBe($cachedData);
 });
 
 it('fetches data from API and caches it if not in cache', function () {
@@ -73,6 +76,8 @@ it('fetches data from API and caches it if not in cache', function () {
 
     $result = $this->service->fetchData($this->dto);
 
-    expect($result)->toBe($apiData);
+    expect($result)->toBeInstanceOf(BestSellersResponseDto::class)
+        ->and($result->cached)->toBeFalse()
+        ->and($result->rawResponse)->toBe($apiData);
 });
 

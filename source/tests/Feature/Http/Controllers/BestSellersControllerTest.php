@@ -1,5 +1,7 @@
 <?php
 
+use App\Dto\BestSellersRequestDto;
+use App\Dto\BestSellersResponseDto;
 use App\Http\Controllers\BestSellersController;
 use App\Interfaces\Logging;
 use App\Services\BestSellersService;
@@ -13,10 +15,14 @@ it('logs DTO contents and returns success', function ($data) {
         ->with('BestSellers request', $data);
 
     // mock the service
+    $responseDto = new BestSellersResponseDto(
+        cached: false,
+        rawResponse: ['mocked' => 'data']
+    );
     $serviceMock = mock(BestSellersService::class);
     $serviceMock->shouldReceive('fetchData')
         ->once()
-        ->andReturn(['mocked' => 'data']);
+        ->andReturn($responseDto);
 
     // bind mock to the container
     app()->instance(BestSellersService::class, $serviceMock);
@@ -31,7 +37,7 @@ it('logs DTO contents and returns success', function ($data) {
 
     // assert results
     expect($response->getStatusCode())->toBe(200)
-        ->and($response->getContent())->toBe('{"success":true,"rawData":{"mocked":"data"}}');
+        ->and($response->getContent())->toBe('{"success":true,"cached":false,"rawResponse":{"mocked":"data"}}');
 })->with([
     [[
         'author' => 'John Doe',
@@ -71,8 +77,8 @@ it('handles exception from NytApiService and returns failure', function ($data) 
     $response = $controller->index($request, $serviceMock);
 
     // assert results
-    expect($response->getStatusCode())->toBe(200)
-        ->and($response->getContent())->toBe('{"success":false}');
+    expect($response->getStatusCode())->toBe(500)
+        ->and($response->getContent())->toBe('{"success":false,"error":"Internal server error"}');
 })->with([
     [[
         'author' => 'John Doe',

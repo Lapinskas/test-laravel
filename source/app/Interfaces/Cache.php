@@ -12,7 +12,7 @@ interface Cache
     /**
      * Get data from cache by key.
      *
-     * @return array<mixed,mixed>|null
+     * @return array<string, mixed>|null
      */
     public function get(string $key): ?array;
 
