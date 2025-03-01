@@ -7,8 +7,8 @@ namespace App\Dto;
 use App\Helpers\Getter;
 
 /**
- * DTO for Best Sellers request
- * DTO has already validated and typed properties
+ * Strongly-typed DTO for Best Sellers request
+ * DTO contains already validated and typed properties
  *
  * @property-read ?string $author
  * @property-read ?string $title
@@ -28,4 +28,14 @@ class BestSellersRequestDto
         protected readonly ?int $offset,
         protected readonly ?array $isbn,
     ) {}
+
+    public function toArray(): array
+    {
+        return [
+            'author' => $this->author,
+            'title' => $this->title,
+            'offset' => $this->offset,
+            'isbn' => $this->isbn,
+        ];
+    }
 }

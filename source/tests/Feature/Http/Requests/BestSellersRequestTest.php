@@ -1,17 +1,18 @@
 <?php
 
-use Tests\RequestFactories\BestSellerRequestFactory;
+use Tests\RequestFactories\BestSellersRequestFactory;
 
 it('converts validated data to DTO correctly', function ($input, $expected) {
     // get DTO and validate it
-    $dto = BestSellerRequestFactory::new()
+    $dto = BestSellersRequestFactory::new()
         ->state($input)
         ->toDto();
 
     expect($dto->author)->toBe($expected['author'])
         ->and($dto->title)->toBe($expected['title'])
         ->and($dto->offset)->toBe($expected['offset'])
-        ->and($dto->isbn)->toBe($expected['isbn']);
+        ->and($dto->isbn)->toBe($expected['isbn'])
+        ->and($dto->toArray())->toEqual($expected);
 })->with([
     [
         'input' => [],

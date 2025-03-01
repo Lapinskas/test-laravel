@@ -6,10 +6,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BestSellersRequest;
+use App\Interfaces\Logging;
 use Illuminate\Http\JsonResponse;
 
 class BestSellersController extends Controller
 {
+
+    // Use DI to set a logger
+    public function __construct(protected Logging $logger)
+    {
+    }
+
     /**
      * @OA\Post(
      *     path="/best-sellers",
@@ -111,7 +118,11 @@ class BestSellersController extends Controller
      */
     public function index(BestSellersRequest $request): JsonResponse
     {
-        $request->toDto();
+        // get strongly typed DTO from validated request
+        $dto = $request->toDto();
+
+        // log new request
+        $this->logger->info('BestSellers request', $dto->toArray());
 
         return response()->json();
     }
