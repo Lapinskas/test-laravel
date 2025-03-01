@@ -68,29 +68,46 @@ class BestSellersController extends Controller
      *         description="Successfully retrieved best sellers",
      *
      *         @OA\JsonContent(
-     *             type="array",
+     *             type="object",
      *
-     *             @OA\Items(
-     *                 type="object"
-     *             )
+     *             @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="OK"
+     *              ),
+     *              @OA\Property(
+     *                   property="num_results",
+     *                   type="integer",
+     *                   example="0"
+     *               ),
+     *               @OA\Property(
+     *                    property="results",
+     *                    type="array",
+     *
+     *                    @OA\Items(type="object")
+     *                )
      *         )
      *     ),
      *
      *     @OA\Response(
      *         response=400,
-     *         description="Invalid input",
+     *         description="Bad Request",
      *
      *         @OA\JsonContent(
      *             type="object",
      *
      *             @OA\Property(
-     *                 property="error",
+     *                 property="status",
      *                 type="string",
-     *                 example="Invalid offset format"
+     *                 example="ERROR"
      *             )
      *         )
      *     ),
      *
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorised"
+     *      ),
      *      @OA\Response(
      *          response=422,
      *          description="Validation Error",
@@ -105,6 +122,20 @@ class BestSellersController extends Controller
      *              )
      *          )
      *      ),
+     *
+     *      @OA\Response(
+     *           response=429,
+     *           description="Rate limit quota violation",
+     *
+     *           @OA\JsonContent(
+     *               type="object",
+     *
+     *               @OA\Property(
+     *                   property="fault",
+     *                   type="object"
+     *               )
+     *           )
+     *       ),
      *
      *     @OA\Response(
      *         response=500,
