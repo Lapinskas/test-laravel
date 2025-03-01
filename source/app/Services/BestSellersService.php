@@ -8,7 +8,7 @@ use App\Dto\BestSellersRequestDto;
 use App\Interfaces\Cache as CacheRepository;
 use App\Interfaces\Logging;
 
-class NytApiService
+class BestSellersService
 {
     public function __construct(
         protected CacheRepository $cache,
@@ -18,7 +18,7 @@ class NytApiService
     public function fetchData(BestSellersRequestDto $dto): mixed
     {
         // log service call
-        $this->logger->info('NytApiService->fetchData call');
+        $this->logger->info('BestSellersService->fetchData call');
 
         $cacheKey = $this->generateCacheKey($dto);
 
@@ -29,8 +29,8 @@ class NytApiService
         $data = ['API Data'];
 
         // the following construction to cope with the phpstan level 10
-        $ttl = is_numeric(config('nyt-service.cacheTtl'))
-            ? intval(config('nyt-service.cacheTtl')) : 3600;
+        $ttl = is_numeric(config('bestsellers.cacheTtl'))
+            ? intval(config('bestsellers.cacheTtl')) : 3600;
         $this->cache->put($cacheKey, $data, $ttl);
 
         return $data;
@@ -38,7 +38,7 @@ class NytApiService
 
     private function generateCacheKey(BestSellersRequestDto $dto): string
     {
-        $value = config('nyt-service.cachePrefix');
+        $value = config('bestsellers.cachePrefix');
         $prefix = is_string($value) ? $value : '';
 
         return $prefix.md5(serialize($dto->toArray()));

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\BestSellersController;
 use App\Interfaces\Logging;
-use App\Services\NytApiService;
+use App\Services\BestSellersService;
 use Tests\RequestFactories\BestSellersRequestFactory;
 
 it('logs DTO contents and returns success', function ($data) {
@@ -13,13 +13,13 @@ it('logs DTO contents and returns success', function ($data) {
         ->with('BestSellers request', $data);
 
     // mock the service
-    $serviceMock = mock(NytApiService::class);
+    $serviceMock = mock(BestSellersService::class);
     $serviceMock->shouldReceive('fetchData')
         ->once()
         ->andReturn(['mocked' => 'data']);
 
     // bind mock to the container
-    app()->instance(NytApiService::class, $serviceMock);
+    app()->instance(BestSellersService::class, $serviceMock);
 
     // create request
     $request = BestSellersRequestFactory::new()->state($data)->createRequest();
@@ -54,13 +54,13 @@ it('handles exception from NytApiService and returns failure', function ($data) 
         });
 
     // mock the NytApiService to throw an exception
-    $serviceMock = mock(NytApiService::class);
+    $serviceMock = mock(BestSellersService::class);
     $serviceMock->shouldReceive('fetchData')
         ->once()
         ->andThrow(new Exception('API error'));
 
     // bind mock to the container
-    app()->instance(NytApiService::class, $serviceMock);
+    app()->instance(BestSellersService::class, $serviceMock);
 
     // create request
     $request = BestSellersRequestFactory::new()->state($data)->createRequest();

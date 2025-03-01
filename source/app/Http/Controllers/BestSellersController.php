@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BestSellersRequest;
 use App\Interfaces\Logging;
-use App\Services\NytApiService;
+use App\Services\BestSellersService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -140,7 +140,7 @@ class BestSellersController extends Controller
      */
     public function index(
         BestSellersRequest $request,
-        NytApiService $service
+        BestSellersService $service
     ): JsonResponse {
         // get strongly typed DTO from validated request
         $dto = $request->toDto();
