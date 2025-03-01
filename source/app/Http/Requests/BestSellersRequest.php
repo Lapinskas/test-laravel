@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Dto\BestSellersRequestDto;
 use App\Rules\NumberArrayWithLeadingZeros;
 use App\Rules\OffsetMultipleOfTwenty;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -54,5 +55,27 @@ class BestSellersRequest extends FormRequest
              */
             'isbn' => [new NumberArrayWithLeadingZeros()],
         ];
+    }
+
+    /**
+     * Creates DTO from validated properties
+     */
+    public function toDto(): BestSellersRequestDto
+    {
+        /** @var array{
+         *     author?: string,
+         *     title?: string,
+         *     offset?: int,
+         *     isbn?: array{string},
+         * } $validated
+         */
+        $validated = $this->validated();
+
+        return new BestSellersRequestDto(
+            author: $validated['author'] ?? null,
+            title: $validated['title'] ?? null,
+            offset: $validated['offset'] ?? null,
+            isbn: $validated['isbn'] ?? null,
+        );
     }
 }

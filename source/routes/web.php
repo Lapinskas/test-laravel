@@ -10,6 +10,6 @@ Route::get('/', function (): View {
     return view('welcome');
 });
 
-Route::prefix('api/v1.0')->group(function (): void {
-    Route::get('/best-sellers', [BestSellersController::class, 'index']);
+Route::prefix('api/v1')->group(function (): void {
+    Route::post('/best-sellers', [BestSellersController::class, 'index']);
 });
