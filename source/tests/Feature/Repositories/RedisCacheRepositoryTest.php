@@ -54,3 +54,25 @@ it('forgets value from cache by key', function () {
 
     $this->repository->forget('test_key');
 });
+
+it('returns null when cached value is not a valid JSON array', function () {
+    Cache::shouldReceive('get')
+        ->with('invalid_json_key')
+        ->once()
+        ->andReturn('not_a_json_string');
+
+    $result = $this->repository->get('invalid_json_key');
+
+    expect($result)->toBeNull();
+});
+
+it('returns null when cache key does not exist', function () {
+    Cache::shouldReceive('get')
+        ->with('non_existent_key')
+        ->once()
+        ->andReturn(null);
+
+    $result = $this->repository->get('non_existent_key');
+
+    expect($result)->toBeNull();
+});
