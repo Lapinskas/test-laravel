@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\BestSellersController;
 use App\Interfaces\Logging;
-use App\Http\Controllers\Api\BestSellersController;
 use Tests\RequestFactories\BestSellersRequestFactory;
 
 it('logs DTO contents and returns success', function ($data) {

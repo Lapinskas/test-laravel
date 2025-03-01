@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\BestSellersRequest;
 use App\Interfaces\Logging;
 use Illuminate\Http\JsonResponse;

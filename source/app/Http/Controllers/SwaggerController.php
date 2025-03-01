@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+/** @codeCoverageIgnore */
 class SwaggerController extends Controller
 {
     /**

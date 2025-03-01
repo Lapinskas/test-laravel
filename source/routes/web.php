@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Api\BestSellersController;
+use App\Http\Controllers\BestSellersController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
