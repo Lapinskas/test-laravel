@@ -142,20 +142,21 @@ class BestSellersController extends Controller
         BestSellersRequest $request,
         BestSellersService $service
     ): JsonResponse {
-        // get strongly typed DTO from validated request
+        // get strongly typed request DTO from validated request
         $dto = $request->toDto();
 
         /**
          * log new request
-         *
          * @var array<string, mixed> $context
          */
         $context = $dto->toArray();
         $this->logger->info('BestSellers request', $context);
 
         try {
+            // use service to fetch cached or fresh API data
             $data = $service->fetchData($dto);
 
+            // successfully return raw (cached) API response
             return response()->json([
                 'success' => true,
                 'rawData' => $data,

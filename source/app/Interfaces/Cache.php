@@ -12,14 +12,15 @@ interface Cache
     /**
      * Get data from cache by key.
      *
-     * @return mixed|null
+     * @param string $key
+     * @return array|null
      */
-    public function get(string $key): mixed;
+    public function get(string $key): ?array;
 
     /**
      * Put data into cache with a TTL.
      */
-    public function put(string $key, mixed $value, int $ttl): void;
+    public function put(string $key, array $value, int $ttl): void;
 
     /**
      * Check if key exists in cache.

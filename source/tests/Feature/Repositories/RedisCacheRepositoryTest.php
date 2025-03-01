@@ -11,27 +11,29 @@ beforeEach(function () {
         ->andReturnSelf();
 
     $this->repository = new RedisCacheRepository();
+    $this->decodedValue = ['response' => 'cached_value'];
+    $this->encodedValue = json_encode(['response' => 'cached_value']);
 });
 
 it('gets value from cache by key', function () {
     Cache::shouldReceive('get')
         ->with('test_key')
         ->once()
-        ->andReturn('cached_value');
+        ->andReturn($this->encodedValue);
 
     $result = $this->repository
         ->get('test_key');
 
-    expect($result)->toBe('cached_value');
+    expect($result)->toBe($this->decodedValue);
 });
 
 it('puts value into cache with TTL', function () {
     Cache::shouldReceive('put')
-        ->with('test_key', 'test_value', 3600)
+        ->with('test_key', $this->encodedValue, 3600)
         ->once();
 
     $this->repository
-        ->put('test_key', 'test_value', 3600);
+        ->put('test_key', $this->decodedValue, 3600);
 });
 
 it('checks if key exists in cache', function () {

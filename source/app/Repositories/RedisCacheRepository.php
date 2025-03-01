@@ -13,14 +13,16 @@ class RedisCacheRepository implements CacheInterface
     /**
      * @throws InvalidArgumentException
      */
-    public function get(string $key): mixed
+    public function get(string $key): array
     {
-        return Cache::store('redis')->get($key);
+        $encoded = Cache::store('redis')->get($key);
+        return json_decode($encoded, true);
     }
 
-    public function put(string $key, mixed $value, int $ttl): void
+    public function put(string $key, array $value, int $ttl): void
     {
-        Cache::store('redis')->put($key, $value, $ttl);
+        $encoded = json_encode($value, JSON_UNESCAPED_UNICODE);
+        Cache::store('redis')->put($key, $encoded, $ttl);
     }
 
     /**
