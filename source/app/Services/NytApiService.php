@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Dto\BestSellersRequestDto;
-use App\Interfaces\Logging;
 use App\Interfaces\Cache as CacheRepository;
+use App\Interfaces\Logging;
 
 class NytApiService
 {
@@ -15,12 +15,7 @@ class NytApiService
         protected Logging $logger
     ) {}
 
-    /**
-     * @return array{}
-     *
-     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
-     */
-    public function fetchData(BestSellersRequestDto $dto): array
+    public function fetchData(BestSellersRequestDto $dto): mixed
     {
         // log service call
         $this->logger->info('NytApiService->fetchData call');
@@ -33,13 +28,19 @@ class NytApiService
 
         $data = ['API Data'];
 
-        $this->cache->put($cacheKey, $data, config('nyt-service.cacheTtl'));
+        // the following construction to cope with the phpstan level 10
+        $ttl = is_numeric(config('nyt-service.cacheTtl'))
+            ? intval(config('nyt-service.cacheTtl')) : 3600;
+        $this->cache->put($cacheKey, $data, $ttl);
 
         return $data;
     }
 
     private function generateCacheKey(BestSellersRequestDto $dto): string
     {
-        return config('nyt-service.cacheKey') . md5(serialize($dto->toArray()));
+        $value = config('nyt-service.cachePrefix');
+        $prefix = is_string($value) ? $value : '';
+
+        return $prefix.md5(serialize($dto->toArray()));
     }
 }

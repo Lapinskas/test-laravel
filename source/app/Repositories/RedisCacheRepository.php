@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Interfaces\Cache as CacheInterface;
@@ -16,7 +18,7 @@ class RedisCacheRepository implements CacheInterface
         return Cache::store('redis')->get($key);
     }
 
-    public function put(string $key, $value, int $ttl): void
+    public function put(string $key, mixed $value, int $ttl): void
     {
         Cache::store('redis')->put($key, $value, $ttl);
     }
