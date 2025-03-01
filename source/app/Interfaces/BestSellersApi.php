@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Interfaces;
 
+use App\Dto\BestSellersRequestDto as Request;
+use App\Dto\BestSellersResponseDto as Response;
+
 /**
- * New York Times API interface
+ * New York Times Bestsellers API interface
  */
 interface BestSellersApi
 {
-    /**
-     * @param  array{string,mixed}|array{}  $context
-     */
-    public function info(string $message, array $context = []): void;
+    public function fetchData(Request $dto): Response;
 }

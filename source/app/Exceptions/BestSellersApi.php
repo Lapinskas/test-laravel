@@ -6,4 +6,4 @@ namespace App\Exceptions;
 
 use Exception;
 
-class BestSellersApiException extends Exception {}
+class BestSellersApi extends Exception {}
