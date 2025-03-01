@@ -11,10 +11,10 @@ it('logs info message with context', function () {
     $context = ['key' => 'value'];
 
     (new LaravelLogger())->info($message, $context);
+    (new LaravelLogger())->error($message, $context);
 
-    $logSpy->shouldHaveReceived('info', [$message, $context]);
-
-    expect(fn () => $logSpy->shouldHaveReceived('info', [$message, $context]))->not->toThrow(Exception::class);
+    expect(fn() => $logSpy->shouldHaveReceived('info', [$message, $context]))->not->toThrow(Exception::class)
+        ->and(fn() => $logSpy->shouldHaveReceived('error', [$message, $context]))->not->toThrow(Exception::class);
 
     Mockery::close();
 });

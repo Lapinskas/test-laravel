@@ -13,4 +13,9 @@ interface Logging
      * @param  array{string,mixed}|array{}  $context
      */
     public function info(string $message, array $context = []): void;
+
+    /**
+     * @param  array{string,mixed}|array{}  $context
+     */
+    public function error(string $message, array $context = []): void;
 }

@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BestSellersRequest;
 use App\Interfaces\Logging;
+use App\Services\NytApiService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 
 class BestSellersController extends Controller
@@ -71,21 +73,14 @@ class BestSellersController extends Controller
      *             type="object",
      *
      *             @OA\Property(
-     *                  property="status",
-     *                  type="string",
-     *                  example="OK"
+     *                  property="success",
+     *                  type="boolean",
+     *                  example=true
      *              ),
      *              @OA\Property(
-     *                   property="num_results",
-     *                   type="integer",
-     *                   example="0"
-     *               ),
-     *               @OA\Property(
-     *                    property="results",
-     *                    type="array",
-     *
-     *                    @OA\Items(type="object")
-     *                )
+     *                   property="rawData",
+     *                    type="object"
+     *               )
      *         )
      *     ),
      *
@@ -143,21 +138,35 @@ class BestSellersController extends Controller
      *     )
      * )
      */
-    public function index(BestSellersRequest $request): JsonResponse
-    {
+    public function index(
+        BestSellersRequest $request,
+        NytApiService $service
+    ): JsonResponse {
         // get strongly typed DTO from validated request
         $dto = $request->toDto();
 
         /**
-         * Prepare context for logging
+         * log new request
          *
          * @var array<string, mixed> $context
          */
         $context = $dto->toArray();
-
-        // log new request
         $this->logger->info('BestSellers request', $context);
 
-        return response()->json();
+        try {
+            $data = $service->fetchData($dto);
+
+            return response()->json([
+                'success' => true,
+                'rawData' => $data,
+            ]);
+        } catch (Exception $exception) {
+            // log error
+            $this->logger->error($exception->getMessage(), $context);
+
+            return response()->json([
+                'success' => false,
+            ]);
+        }
     }
 }

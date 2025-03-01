@@ -16,4 +16,9 @@ class LaravelLogger implements Logging
     {
         Log::info($message, $context);
     }
+
+    public function error(string $message, array $context = []): void
+    {
+        Log::error($message, $context);
+    }
 }
