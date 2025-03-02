@@ -1,0 +1,168 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Lendflow Assessment API",
+        "description": "API documentation for Lendflow Assessment",
+        "contact": {
+            "email": "vlad.lapinskas@gmail.com"
+        },
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "/api/v1"
+        }
+    ],
+    "paths": {
+        "/best-sellers": {
+            "post": {
+                "tags": [
+                    "Best Sellers"
+                ],
+                "summary": "Get list of best sellers",
+                "description": "This endpoint a wrapper over NYT API",
+                "operationId": "b1a40502a2e012f0db19f6922f07fe4f",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "Indicates that the client expects a JSON response",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "author",
+                                    "title",
+                                    "offset",
+                                    "isbn"
+                                ],
+                                "properties": {
+                                    "author": {
+                                        "description": "Author of the book",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "title": {
+                                        "description": "Title of the book",
+                                        "type": "string",
+                                        "example": "Best Book Ever"
+                                    },
+                                    "offset": {
+                                        "description": "Offset for pagination",
+                                        "type": "integer",
+                                        "example": 20
+                                    },
+                                    "isbn": {
+                                        "description": "ISBN numbers of the books",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "example": [
+                                            "9783161484100",
+                                            "9780123456"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved best sellers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "cached": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "rawResponse": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "ERROR"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The offset must be a multiple of 20"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Rate limit quota violation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "fault": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Best Sellers",
+            "description": "Best Sellers"
+        }
+    ]
+}
