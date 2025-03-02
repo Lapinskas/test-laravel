@@ -12,9 +12,24 @@ The project is built following best practices for API integration, including **v
 
 ## 🚀 API Functionality
 
-- **Fetch data from the NYT API**: Implements an endpoint to retrieve bestseller information.  
-- **Supports filtering** by `author`, `isbn[]`, `title`, and `offset`.  
-- **Strict parameter validation**: Enforces stricter validation rules than the # Структура кода в `source/app`
+- Fetch data from the NYT API: Implements an endpoint to retrieve bestseller information.
+- Supports filtering by author, isbn[], title, and offset.
+- Strict parameter validation (stricter than NYT).
+- Handles errors and edge cases, including invalid requests and NYT API failures.
+- Implements request caching to optimize performance.
+- Logs requests and errors for monitoring and debugging.
+- Ensures API versioning for future updates without breaking backward compatibility.
+
+### General approach for API wrapper
+
+- The response always includes a `success` flag, indicating either a successful operation or an error, whether on the wrapper's side or the NYT API side.
+- The results retrieved from the NYT API are passed as-is in the `rawResponse` field, as there are no clear requirements for processing them.
+- The `rawResponse` contains raw response for both successful and error responses from the NYT API.
+- On a successful response, results are cached in Redis and served for the same filtering and pagination parameters without re-querying the NYT API.
+- The `cached` flag indicates whether the results were retrieved from the cache or directly from the NYT API.
+- If the NYT API returns an error, the wrapper propagates the same error code in its response.
+- For internal wrapper errors, a `500 Internal Server Error` is returned, and the `rawResponse` field is omitted.
+
 
 ## 📁 Code Structure of the App
 
@@ -30,3 +45,11 @@ The pipeline combination of `Pint`, `PHPStan`, `PHP Insights` and `Pest` ensures
 Testing is performed using `Pest` (a wrapper over `PHPUnit`). The project includes a total of 84 tests and 175 assertions, achieving 100% code coverage while accounting for the maximum number of edge cases and failure scenarios.
 
 Tests run both locally in Docker and as part of GitHub CI/CD pipeline, utilizing mocking (including HTTP) to eliminate the need for actual API credentials or an internet connection. Docker ensures environment consistency, which is crucial for cross-platform testing.
+
+## 🔖 API Documentation and Versioning
+
+The API documentation is automatically generated for Swagger (OAS 3.0) based on annotations that describe parameter types, example values, and all possible response types, including exceptions.
+
+API versioning is ensured through the API routes' `v1` prefix, allowing clear separation of different API versions and simplifying future change management. Additionally, the API documentation, generated with Swagger, incorporates the `v1` version based on annotations in the controllers.  
+
+The API documentation includes descriptions of breaking change strategies and endpoint tags indicating the status of each endpoint (`stable`, `deprecated`, `experimental`). Furthermore, API responses include the `x-warning` header, providing additional information about the endpoint.
