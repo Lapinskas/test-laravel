@@ -44,6 +44,33 @@ nyt-php - Up 16 minutes
 nyt-redis - Up 16 minutes
 nyt-database - Up 16 minutes (healthy)
 ```
+### 5️⃣ Environment variables
+
+To set up the .env file, follow these steps:
+
+Copy the .env.example file to .env:
+```sh
+cp source/.env.example source/.env
+```
+Add values for the NYT API keys in your .env file:
+```
+NYT_API_APP_ID=your_app_id_here
+NYT_API_KEY=your_api_key_here
+NYT_API_SECRET=  // not used in the project
+```
+
+### 6️⃣ Composer
+
+Generate APP KEY by running following command in your docker container
+```sh
+php artisan key:generate
+```
+
+Intall project dependencies
+```sh
+composer install
+```
+
 
 ## 🌍 Homepage & API Documentation
 The project's homepage is accessible at [http://localhost](http://localhost). It includes a link to the [**Swagger documentation**](http://localhost/api/documentation), which allows you to test API endpoints using Swagger UI, Postman, curl, or any other API testing tool.
