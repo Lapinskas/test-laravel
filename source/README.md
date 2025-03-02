@@ -53,3 +53,25 @@ The API documentation is automatically generated for Swagger (OAS 3.0) based on 
 API versioning is ensured through the API routes' `v1` prefix, allowing clear separation of different API versions and simplifying future change management. Additionally, the API documentation, generated with Swagger, incorporates the `v1` version based on annotations in the controllers.  
 
 The API documentation includes descriptions of breaking change strategies and endpoint tags indicating the status of each endpoint (`stable`, `deprecated`, `experimental`). Furthermore, API responses include the `x-warning` header, providing additional information about the endpoint.
+
+## 🔍 Logging and Monitoring
+
+- Implements basic logging with two levels: info and error.
+- Uses an interface for logging and Dependency Injection (DI) to allow future integration of centralized logging solutions.
+- Monitoring was not implemented due to time constraints on the task.
+
+## 🔒 Security
+
+- The application uses configuration from the `.env` file.
+- To access keys, the application directly utilizes the `env()` function instead of `config()`, in order to avoid the risk of caching sensitive information.
+- The application does not use keys for tests.
+- The wrapper API does not include authentication or rate limiting.
+- These security measures were not implemented due to time constraints.
+
+## ♻️ Caching
+
+- The project implements a well-structured caching system using Redis to reduce load on the external NYT API and improve request processing speed.
+- Caching is implemented via the Cache interface, its RedisCacheRepository implementation, and integration into BestSellersService through Dependency Injection (DI).
+- There is no mechanism for manual cache invalidation due to time constraints.
+- For the same reason, cache hit/miss logging and general monitoring are not implemented, though it could help optimize performance.
+
