@@ -24,3 +24,9 @@ The code structure reflects a professional Laravel development approach, emphasi
 The code pass quality checks thanks to integrated GitHub Actions CI/CD on every commit.
 The pipeline combination of `Pint`, `PHPStan`, `PHP Insights` and `Pest` ensures high code quality and maintainability.
 - Code quality tools are explained at the [main project page](https://github.com/Lapinskas/test-laravel/blob/main/README.md)
+
+## ✅ Tests
+
+Testing is performed using `Pest` (a wrapper over `PHPUnit`). The project includes a total of 84 tests and 175 assertions, achieving 100% code coverage while accounting for the maximum number of edge cases and failure scenarios.
+
+Tests run both locally in Docker and as part of GitHub CI/CD pipeline, utilizing mocking (including HTTP) to eliminate the need for actual API credentials or an internet connection. Docker ensures environment consistency, which is crucial for cross-platform testing.
