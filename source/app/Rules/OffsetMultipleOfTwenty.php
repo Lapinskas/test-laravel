@@ -8,6 +8,9 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
+/**
+ * Custom rule to validate zero or positive integer multiple of 20
+ */
 class OffsetMultipleOfTwenty implements ValidationRule
 {
     /**

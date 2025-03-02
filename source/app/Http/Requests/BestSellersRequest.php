@@ -10,6 +10,11 @@ use App\Rules\OffsetMultipleOfTwenty;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Request class for Best Sellers API that produce request DTO
+ * @see BestSellersController
+ * @see BestSellersRequestDto
+ */
 class BestSellersRequest extends FormRequest
 {
     /**

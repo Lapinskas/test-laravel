@@ -8,6 +8,10 @@ use App\Interfaces\Cache as CacheInterface;
 use Illuminate\Support\Facades\Cache;
 use Psr\SimpleCache\InvalidArgumentException;
 
+/**
+ * This repository implements Redis cache wrapper for
+ * caching of successful API responses
+ */
 class RedisCacheRepository implements CacheInterface
 {
     /**

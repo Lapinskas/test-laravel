@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
+        // binding implementations to interfaces
         $this->app->bind(
             BestSellersApi::class,
             NytBestSellersRepository::class

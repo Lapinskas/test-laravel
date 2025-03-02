@@ -12,6 +12,9 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
+/**
+ * This repository implements NYT API call to get Best Sellers
+ */
 class NytBestSellersRepository implements BestSellersApi
 {
     private string $url;

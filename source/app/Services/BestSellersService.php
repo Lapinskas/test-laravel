@@ -11,6 +11,11 @@ use App\Interfaces\BestSellersApi;
 use App\Interfaces\Cache as CacheRepository;
 use App\Interfaces\Logging;
 
+/**
+ * Service to fetch data using API interface
+ * with caching of successful responses using cache interface
+ * and logging using logging service
+ */
 class BestSellersService
 {
     public function __construct(
@@ -42,6 +47,7 @@ class BestSellersService
 
         // fetch the data from external interface
         $data = $this->api->fetchData($dto);
+        $this->logger->info('Got successful response');
 
         // cache results
         $this->cache->put(

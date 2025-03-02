@@ -60,6 +60,10 @@ it('fetches data from API and caches it if not in cache', function () {
         ->with('BestSellersService->fetchData call')
         ->once();
 
+    $this->loggerMock->shouldReceive('info')
+        ->with('Got successful response')
+        ->once();
+
     $this->cacheMock->shouldReceive('get')
         ->with($cacheKey)
         ->once()

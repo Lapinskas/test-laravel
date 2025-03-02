@@ -12,11 +12,13 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Controller class for the wrapper around NYT API endpoint
+ */
 class BestSellersController extends Controller
 {
     // Use DI to set a logger
     public function __construct(protected Logging $logger) {}
-
     /**
      * @OA\Post(
      *     path="/best-sellers",
@@ -165,7 +167,7 @@ class BestSellersController extends Controller
             $response = $service->fetchData($dto);
 
             // successfully return raw (cached) API response
-            return response()->json([
+            return $this->response([
                 'success' => true,
                 'cached' => $response->cached,
                 'rawResponse' => $response->rawResponse,
@@ -194,7 +196,7 @@ class BestSellersController extends Controller
         $this->logger->error($exception->getMessage(), $logContext);
 
         // wrap NYT response using original error code
-        return response()->json([
+        return $this->response([
             'success' => false,
             'error' => $exception->message,
             'rawResponse' => $exception->getResponseBody(),
@@ -213,9 +215,29 @@ class BestSellersController extends Controller
         // log error
         $this->logger->error($exception->getMessage(), $context);
 
-        return response()->json([
+        return $this->response([
             'success' => false,
             'error' => 'Internal server error',
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Common response handler with custom x-warning header
+     *
+     * @param  array<string, mixed>  $data
+     */
+    protected function response(
+        array $data,
+        int $statusCode = Response::HTTP_OK
+    ): JsonResponse {
+        $warning =
+           'This endpoint is experimental and subject to change without notice';
+
+        return response()
+            ->json($data, $statusCode)
+            ->header(
+                key: 'x-warning',
+                values: $warning
+            );
     }
 }

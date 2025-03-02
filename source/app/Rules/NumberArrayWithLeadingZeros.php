@@ -8,6 +8,10 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
+/**
+ * Custom rule to validate an array of strings representing
+ * 10 or 13 - digits ISBNs
+ */
 class NumberArrayWithLeadingZeros implements ValidationRule
 {
     /**

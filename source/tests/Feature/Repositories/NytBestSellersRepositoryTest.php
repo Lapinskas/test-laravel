@@ -106,3 +106,30 @@ it('throws ApiException if response is unsuccessful', function ($data, $status) 
         'isbn' => ['1234567890'],
     ], 500],
 ]);
+
+it('throws an exception if response is not successful but does not trigger RequestException', function ($data, $status) {
+    Http::fake([
+        '*' => Http::response('Error', $status),
+    ]);
+
+    $repository = new NytBestSellersRepository();
+    $dto = new BestSellersRequestDto(...$data);
+
+    $this->expectException(BestSellersApi::class);
+    $this->expectExceptionMessage('NYT API request failed');
+
+    $repository->fetchData($dto);
+})->with([
+    [[
+        'author' => 'Jane Doe',
+        'title' => 'Another Book',
+        'offset' => 10,
+        'isbn' => ['9876543210'],
+    ], 304], // Not Modified
+    [[
+        'author' => 'Alice',
+        'title' => 'Some Book',
+        'offset' => 5,
+        'isbn' => ['1234567890'],
+    ], 422], // Unprocessable Entity
+]);
