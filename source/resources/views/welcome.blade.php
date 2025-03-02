@@ -67,9 +67,9 @@
     <h1>Welcome to Lendflow Assessment</h1>
     <p class="author">Author: <a href="mailto:vlad.lapinskas@gmail.com">Vladas Lapinskas</a></p>
     <div class="links">
-        <a href="/api/v1.0/documentation">Swagger API Documentation</a>
+        <a href="/api/documentation">Swagger API Documentation</a>
         <a href="https://developer.nytimes.com/docs/books-product/1/routes/lists/best-sellers/history.json/get">NYT API Documentation</a>
-        <a href="https://github.com/Lapinskas/test-laravel">Source Repository (private)</a>
+        <a href="https://github.com/Lapinskas/test-laravel">Source Repository</a>
     </div>
 </div>
 </body>

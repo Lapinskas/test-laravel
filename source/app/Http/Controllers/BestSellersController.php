@@ -22,7 +22,7 @@ class BestSellersController extends Controller
      *     path="/best-sellers",
      *     summary="Get list of best sellers",
      *     description="This endpoint a wrapper over NYT API",
-     *     tags={"Best Sellers"},
+     *     tags={"Experimental"},
      *
      *     @OA\Parameter(
      *          name="Accept",
