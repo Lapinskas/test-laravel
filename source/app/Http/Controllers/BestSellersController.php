@@ -19,6 +19,7 @@ class BestSellersController extends Controller
 {
     // Use DI to set a logger
     public function __construct(protected Logging $logger) {}
+
     /**
      * @OA\Post(
      *     path="/best-sellers",

@@ -12,6 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Request class for Best Sellers API that produce request DTO
+ *
  * @see BestSellersController
  * @see BestSellersRequestDto
  */
