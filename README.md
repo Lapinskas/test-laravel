@@ -1,4 +1,9 @@
-# test-laravel
+# Lendflow Assessment for Laravel
+This repo is the assessment task for Laravel done by Vladas Lapinskas on March 2025
+
+The repo consist of the [Docker project](https://github.com/Lapinskas/test-laravel/blob/main/docker-compose.yml) and the [Laravel source code](https://github.com/Lapinskas/test-laravel/blob/main/source/README.md) 
+
+## Get started
 
 ## Get started
 1. Clone repository
