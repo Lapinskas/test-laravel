@@ -1,98 +1,101 @@
-# Lendflow Assessment for Laravel
-This repo is the assessment task for Laravel done by Vladas Lapinskas on March 2025
+# Lendflow Laravel Assessment
 
-The repo consist of the [Docker project](https://github.com/Lapinskas/test-laravel/blob/main/docker-compose.yml) and the [Laravel source code](https://github.com/Lapinskas/test-laravel/blob/main/source/README.md) 
+This repository contains the Laravel assessment task completed by **Vladas Lapinskas** in **March 2025**.
 
-Please check [Laravel project](https://github.com/Lapinskas/test-laravel/blob/main/source/README.md) for coding details
+It includes:
+- The [Docker configuration](https://github.com/Lapinskas/test-laravel/blob/main/docker-compose.yml)
+- The [Laravel source code](https://github.com/Lapinskas/test-laravel/blob/main/source/README.md)
 
-## Docker
-Docker has classical Laravel setup
-- NGINX as Web server
-- PHP with required extensions
-- Redis for caching
-- MySQL (not used in the project at the moment, for future extensions)
+For detailed information on the Laravel implementation, refer to the [Laravel project README](https://github.com/Lapinskas/test-laravel/blob/main/source/README.md).
 
-## Get started
-1. Clone repository
+## 🚀 Docker Setup
+The project is containerized using Docker with a **standard Laravel environment**:
+- **NGINX** as the web server
+- **PHP** with required extensions
+- **Redis** for caching
+- **MySQL** (currently unused but available for future expansion)
+
+## 🛠 Getting Started
+Follow these steps to set up the project locally:
+
+### 1️⃣ Clone the repository:
 ```sh
 git clone git@github.com:Lapinskas/test-laravel.git
 ```
-2. Build docker containers
+
+### 2️⃣ Build the Docker containers:
 ```sh
 docker compose build
 ```
-3. Start docker stack
+
+### 3️⃣ Start the Docker stack:
 ```sh
 docker compose up -d
 ```
-4. Check that you have 4 containers running
+
+### 4️⃣ Verify that four containers are running:
 ```sh
 docker ps --format "{{.Names}} - {{.Status}}"
 ```
-You should see 4 containers, similar to following output
-```
+You should see output similar to:
+```sh
 nyt-nginx-fpm - Up 16 minutes
 nyt-php - Up 16 minutes
 nyt-redis - Up 16 minutes
 nyt-database - Up 16 minutes (healthy)
 ```
 
-## Homepage
-The homepage of the project [http://localhost](http://localhost) provides a link to the Swagger documentation.
-You can use Swagger to make API calls or use any alternative tool (Postman, curl, etc)
+## 🌍 Homepage & API Documentation
+The project's homepage is accessible at [http://localhost](http://localhost). It includes a link to the [**Swagger documentation**](http://localhost/api/documentation), which allows you to test API endpoints using Swagger UI, Postman, curl, or any other API testing tool.
 
-## Code quality and CI/CD
-Project has GitHub's [CI/CD pipeline](https://github.com/Lapinskas/test-laravel/blob/main/.github/workflows/code-quality.yml) that runs code quality checks and tests on each commit
+## ✅ Code Quality & CI/CD Pipeline
+The project integrates **GitHub Actions CI/CD** for automated **code quality checks** and **tests** on every commit. The pipeline includes:
+- ✅ **Laravel Pint** for code formatting
+- 🔍 **PHPStan** for static analysis
+- 📊 **PHP Insights** for code quality analysis
+- 🧪 **Pest** for testing
 
-Code quality checks include:
-- Pint for formatting
-- PHPstan for statical analysis
-- PHP Insights code analysis
-- Tests
+This combination ensures **high code quality and maintainability**.
 
-Such strong combination of checks ensures best code quality.
+### 🔎 Code Quality Tools
+#### 📊 PHP Insights
+Performs static code analysis, evaluates code architecture, and measures complexity.
+Run:
+```sh
+composer insights
+```
 
-### Insights
+#### 🔍 PHPStan
+Detects potential errors in the code before testing.
+Run:
+```sh
+composer stan
+```
 
-PHP Insights performs analysis of code quality and coding style.
-It provides beautiful overview of code architecture and it's complexity.
+#### ✨ Laravel Pint
+Applies consistent code formatting.
+Run:
+```sh
+composer format
+```
 
-To run PHP Insights
+#### 🧪 Pest Tests
+Ensures 100% test coverage for code reliability.
+Run:
+```sh
+composer test
+```
 
-    composer insights
+### 🔄 Pre-Merge Validation
+A custom Composer script is available to validate the codebase before pushing changes. Run:
+```sh
+composer quality
+```
+This script runs:
+1. ✅ Laravel Pint (code formatting)
+2. 🔍 PHPStan (static analysis)
+3. 📊 PHP Insights (code quality assessment)
+4. 🧪 Pest Tests (unit and feature tests)
 
-### PSPStan
+By following these steps, we maintain **a clean, efficient, and well-tested codebase**. 🚀
 
-PHPStan focuses on finding errors in the code. It catches whole classes of bugs even before you write tests for the code.
-
-To run PHPstan
-
-    composer stan
-
-### Laravel Pint
-
-Laravel pint is used as the default code formatter.
-
-To run Pint
-
-    composer format
-
-### Pest Tests
-
-Pest Tests cover 100% of the code to ensure the code quality
-
-    composer test
-
-
-### Validate Before Merge Request
-
-A custom composer script is available to validate the codebase before pushing the code, and can be run via:
-
-    composer quality
-
-This script will run the following steps:
-
-1. Laravel Pint
-2. PSPStan
-3. PHP Insights
-4. Pest Tests
