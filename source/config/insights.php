@@ -77,6 +77,7 @@ return [
         // rules have high cyclomatic complexity
         'app/Rules/NumberArrayWithLeadingZeros.php',
         'app/Rules/OffsetMultipleOfTwenty.php',
+        'app/Http/Controllers/SwaggerController.php',
     ],
 
     'add' => [
